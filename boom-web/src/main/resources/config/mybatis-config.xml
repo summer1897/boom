@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--启动二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--启动延迟加载机制-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--支持数据库表与java实体类字段的下划线写法和驼峰写法的转换-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+	<!-- 扫描这两个包，并按mybatis某人命名方式对domain进行命名 -->
+    <typeAliases>
+    	<package name="com.summer.boom.domain"/>
+    </typeAliases>
+
+</configuration>

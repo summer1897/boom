@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		 http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/mvc
+		 http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+
+    <!-- 导入spring内部bean配置文件-->
+    <import resource="spring-beans-mvc.xml"/>
+    <!-- 导入dao层中的bean的配置文件 -->
+    <import resource="spring-beans-dao.xml"/>
+    <!-- 导入service层中bean的配置文件 -->
+    <import resource="spring-beans-service.xml"/>
+    <!-- 导入自定义的aop配置文件 -->
+    <import resource="spring-beans-aop.xml"/>
+    <!-- 导入数据源配置文件 -->
+    <import resource="spring-beans-db.xml"/>
+
+    <!-- 加载数据源配置文件 -->
+    <context:property-placeholder location="classpath:db/db-dev.properties"/>
+
+    <!-- <context:annotation-config />-->
+    <mvc:annotation-driven/>
+
+
+    <!-- 指示Spring MVC哪些静态资源不用通过DispatcherServlet处理 -->
+    <mvc:resources location="/WEB-INF/asserts/" mapping="/asserts/**"/>
+
+    <context:component-scan base-package="com.summer.boom.controller"/>
+    <context:component-scan base-package="com.summer.boom.service"/>
+    <context:component-scan base-package="com.summer.boom.dao"/>
+</beans>
