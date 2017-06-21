@@ -112,10 +112,10 @@ CREATE TABLE sys_role_resource (
 
 -- 初始化角色-资源关系
 INSERT sys_role_resource(id,role_id,resource_id) VALUES (19,17,2),
-  (19,17,3),
-  (19,17,4),
-  (19,17,5),
-  (19,17,6);
+  (20,17,3),
+  (21,17,4),
+  (22,17,5),
+  (23,17,6);
 
 -- 系统配置信息表
 DROP TABLE IF EXISTS sys_config;
