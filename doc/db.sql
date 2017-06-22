@@ -1,8 +1,8 @@
 -- 管理系统数据库
-DROP DATABASE IF EXISTS authority;
-CREATE DATABASE authority DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+DROP DATABASE IF EXISTS boom;
+CREATE DATABASE boom DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-USE authority;
+USE boom;
 
 -- 系统用户表
 DROP TABLE IF EXISTS sys_user;
@@ -24,7 +24,7 @@ CREATE TABLE sys_user (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT = '系统用户表';
 
 INSERT INTO sys_user(id,username,password,salt,email,phone,status,photo,create_user_id,create_time)
-  VALUES (1,'summer','summer','admin','406507191@qq.com','15268528314',1,'',1,'2017-06-21 11:02:30');
+  VALUES (1,'summer','8f43674dd3e805f6af62dae082563cb1','7ca784711c4b6af983b2b2316cfd93d9','406507191@qq.com','15268528314',1,'',1,'2017-06-21 11:02:30');
 
 -- 系统资源表
 DROP TABLE IF EXISTS sys_resource;
@@ -32,6 +32,7 @@ CREATE TABLE sys_resource (
   id BIGINT NOT NULL AUTO_INCREMENT COMMENT '系统资源ID，唯一标识该资源',
   parent_id BIGINT COMMENT '父级资源ID',
   name VARCHAR(50) NOT NULL COMMENT '资源名称',
+  description VARCHAR(200) COMMENT '资源描述',
   url VARCHAR(200) COMMENT '资源链接URL访问地址',
   permission VARCHAR(200) COMMENT '资源权限,如user:create,menu:*',
   type INT COMMENT '资源类型,如：0：目录，1：菜单，2：按钮',
@@ -41,37 +42,39 @@ CREATE TABLE sys_resource (
 )ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT = '系统资源';
 
 -- 初始化一级菜单
-INSERT INTO sys_resource(id,parent_id,name,url,permission,type,priority,available)
-    VALUES (2,0,'系统监控管理','','monitor:*',1,1,1),
-      (3,0,'权限管理','','authority:*',1,1,2),
-      (4,0,'操作日志管理','','log:*',1,1,3),
-      (5,0,'登录信息管理','','login:*',1,1,4),
-      (6,0,'系统工具','','utils:*',1,1,5);
+INSERT INTO sys_resource(id,parent_id,name,description,url,permission,type,priority,available)
+    VALUES (2,0,'系统监控管理','','','monitor:*',1,1,1),
+      (3,0,'权限管理','','','authority:*',1,1,2),
+      (4,0,'操作日志管理','','','log:*',1,1,3),
+      (5,0,'登录信息管理','','','login:*',1,1,4),
+      (6,0,'系统管理','','','utils:*',1,1,5);
 
 -- 初始化 系统监控管理/子菜单
-INSERT INTO sys_resource(id,parent_id,name,url,permission,type,priority,available)
-    VALUES (7,2,'告警列表','http://localhost:9000/boom/monitor/warnList.html','',1,1,1),
-      (8,2,'系统监控','http://localhost:9000/boom/monitor/monitoringList.html','',1,2,1),
-      (9,2,'SQL监控','http://localhost:9000/boom/monitor/sqlMonitoringList.html','',1,3,1);
+INSERT INTO sys_resource(id,parent_id,name,description,url,permission,type,priority,available)
+    VALUES (7,2,'告警列表','','http://localhost:9000/boom/monitor/warnList.html','',1,1,1),
+      (8,2,'系统监控','','http://localhost:9000/boom/monitor/monitoringList.html','',1,2,1),
+      (9,2,'SQL监控','','http://localhost:9000/boom/monitor/sqlMonitoringList.html','',1,3,1);
 
 -- 初始化 权限管理/子菜单
-INSERT sys_resource(id,parent_id,name,url,permission,type,priority,available)
-    VALUES (10,3,'用户管理','http://localhost:9000/boom/authority/userManager.html','',1,1,1),
-      (11,3,'角色管理','http://localhost:9000/boom/authority/roleManager.html','',1,2,1),
-      (12,3,'资源管理','http://localhost:9000/boom/authority/resourceManager.html','',1,3,1);
+INSERT sys_resource(id,parent_id,name,description,url,permission,type,priority,available)
+    VALUES (10,3,'用户管理','','http://localhost:9000/boom/authority/userManager.html','',1,1,1),
+      (11,3,'角色管理','','http://localhost:9000/boom/authority/roleManager.html','',1,2,1),
+      (12,3,'资源管理','','http://localhost:9000/boom/authority/resourceManager.html','',1,3,1);
 
 -- 初始化 操作日志管理/子菜单
-INSERT sys_resource(id,parent_id,name,url,permission,type,priority,available)
-    VALUES (13,4,'日志查询','http://localhost:9000/log/logQuery.html','',1,1,1);
+INSERT sys_resource(id,parent_id,name,description,url,permission,type,priority,available)
+    VALUES (13,4,'日志查询','','http://localhost:9000/log/logQuery.html','',1,1,1);
 
 -- 初始化 登录信息管理／子菜单
-INSERT sys_resource(id,parent_id,name,url,permission,type,priority,available)
-    VALUES (14,5,'用户登录记录','http://localhost:9000/login/loginRecords.html','',1,1,1);
+INSERT sys_resource(id,parent_id,name,description,url,permission,type,priority,available)
+    VALUES (14,5,'用户登录记录','','http://localhost:9000/login/loginRecords.html','',1,1,1);
 
 -- 初始化 系统工具/才菜单
-INSERT sys_resource(id,parent_id,name,url,permission,type,priority,available)
-    VALUES (15,6,'代码生成','http://localhost:9000/boom/utils/codeGenerator.html','',1,1,1),
-    (16,6,'数据库管理','http://localhost:9000/boom/utils/dbManager.html','',1,2,1);
+INSERT sys_resource(id,parent_id,name,description,url,permission,type,priority,available)
+    VALUES (15,6,'代码生成','','http://localhost:9000/boom/system/codeGenerator.html','',1,1,1),
+      (16,6,'数据库管理','','http://localhost:9000/boom/system/dbManager.html','',1,2,1),
+      (17,6,'密码设置','','http://localhost:9000/boom/system/passwordSettings.html','',1,3,1),
+      (18,6,'头像设置','','http://localhost:9000/boom/system/portraitSettings.html','',1,4,1);
 
 -- 系统角色表
 DROP TABLE IF EXISTS sys_role;
@@ -87,7 +90,7 @@ CREATE TABLE sys_role (
 
 -- 初始化系统角色
 INSERT sys_role(id,name,remark,available,create_user_id,create_time)
-    VALUES (17,'系统管理员','系统管理员',1,1,'2016-06-22 11:34:30');
+    VALUES (17,'admin','系统管理员',1,1,'2016-06-22 11:34:30');
 
 -- 用户与角色对应关系表
 DROP TABLE IF EXISTS sys_user_role;

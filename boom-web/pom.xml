@@ -10,9 +10,45 @@
     <packaging>war</packaging>
     <name>boom-web</name>
     <url>http://maven.apache.org</url>
+
+    <properties>
+        <com.summer.boom.version>1.0.0</com.summer.boom.version>
+    </properties>
+
+    <!--自定义模块依赖-->
     <dependencies>
+        <dependency>
+            <groupId>com.summer</groupId>
+            <artifactId>boom-authority</artifactId>
+            <version>${com.summer.boom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.summer</groupId>
+            <artifactId>boom-common</artifactId>
+            <version>${com.summer.boom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.summer</groupId>
+            <artifactId>boom-log</artifactId>
+            <version>${com.summer.boom.version}</version>
+        </dependency>
     </dependencies>
     <build>
+        <defaultGoal>compile</defaultGoal>
+        <!--plugins-->
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/boom</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+        </plugins>
         <finalName>boom-web</finalName>
     </build>
 </project>
