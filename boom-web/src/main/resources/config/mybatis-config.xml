@@ -14,7 +14,7 @@
 
 	<!-- 扫描这两个包，并按mybatis某人命名方式对domain进行命名 -->
     <typeAliases>
-    	<package name="com.summer.boom.domain"/>
+    	<package name="boom"/>
     </typeAliases>
 
 </configuration>

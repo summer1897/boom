@@ -11,26 +11,12 @@
     <name>boom-web</name>
     <url>http://maven.apache.org</url>
 
-    <properties>
-        <com.summer.boom.version>1.0.0</com.summer.boom.version>
-    </properties>
-
     <!--自定义模块依赖-->
     <dependencies>
         <dependency>
             <groupId>com.summer</groupId>
-            <artifactId>boom-authority</artifactId>
-            <version>${com.summer.boom.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.summer</groupId>
-            <artifactId>boom-common</artifactId>
-            <version>${com.summer.boom.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.summer</groupId>
-            <artifactId>boom-log</artifactId>
-            <version>${com.summer.boom.version}</version>
+            <artifactId>boom-manager</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
     <build>

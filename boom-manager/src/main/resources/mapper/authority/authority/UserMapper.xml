@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.summer.boom.dao.UserMapper">
+
+    <sql id="userColumn">
+        id, username, password, salt, email, status, phone, photo, create_user_id, create_time
+    </sql>
+
+    <!--查询操作-->
+    <!--查询所有用户-->
+    <select id="queryAll" resultType="user">
+        SELECT
+        <include refid="userColumn"/>
+        from sys_user
+    </select>
+
+    <!--根据用户ID查询用户-->
+    <select id="queryById" resultType="user">
+        SELECT
+        <include refid="userColumn"/>
+        from sys_user WHERE id = #{userId}
+    </select>
+
+    <!--根据用户名查找用户-->
+    <select id="queryByName" resultType="user">
+        SELECT
+        <include refid="userColumn"/>
+        from sys_user
+        WHERE username LIKE concat('%' + #{username} + '%')
+    </select>
+
+    <!--根据账号/密码查询用户，账号可以是用户名、手机号或邮箱-->
+    <select id="queryByAccountAndPassword" resultType="user">
+        SELECT
+        <include refid="userColumn"/>
+        from sys_user
+        WHERE (username = #{account} OR phone = #{account} OR email = #{account}) AND password = #{password}
+    </select>
+
+    <!--根据用户手机号查找用户-->
+    <select id="queryByPhone" resultType="user">
+        SELECT
+        <include refid="userColumn"/>
+        from sys_user
+        WHERE phone LIKE concat('%' + #{phone} + '%')
+    </select>
+
+    <!--根据用户邮箱查找用户-->
+    <select id="queryByEmail" resultType="user">
+        SELECT
+        <include refid="userColumn"/>
+        from sys_user
+        WHERE email LIKE concat('%' + #{email} + '%')
+    </select>
+
+    <!--查询用户对应的所有角色名称-->
+    <select id="findRoles" resultType="string">
+        SELECT r.name
+        FROM sys_user u, sys_role r, sys_user_role ur
+        WHERE u.id = ur.user_id AND r.id = ur.role_id AND u.id = #{userId}
+    </select>
+
+    <!--添加操作-->
+    <!--添加用户-->
+    <insert id="addUser" parameterType="user" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO sys_user(<include refid="userColumn"/>)
+        VALUES
+        (#{id},#{username},#{password},#{salt},#{email},#{status},#{phone},#{photo},#{createUserId},#{createTime})
+    </insert>
+
+    <!--删除操纵-->
+    <!--删除用户-->
+    <delete id="deleteUser">
+        DELETE FROM sys_user
+        WHERE id = #{userId}
+    </delete>
+
+    <!--更新操作-->
+    <!--更新用户信息-->
+    <update id="updateUser" parameterType="user">
+        UPDATE sys_user SET
+        <set>
+            <if test="null != username and '' != username">
+                username = #{username},
+            </if>
+            <if test="null != password and '' != password">
+                password = #{password},
+            </if>
+            <if test="null != salt and '' != salt">
+                salt = #{salt},
+            </if>
+            <if test="null != email and '' != email">
+                email = #{email}
+            </if>
+            <if test="null != status">
+                status = #{status}
+            </if>
+            <if test="null != phone and '' != phone">
+                phone = #{phone}
+            </if>
+            <if test="null != photo and '' != photo">
+                photo = #{photo}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--修改用户密码-->
+    <update id="changePassword">
+        UPDATE sys_user
+        SET password = #{newPassword}, salt = #{newSalt}
+        WHERE id = #{userId}
+    </update>
+
+
+    <!--用户与角色进行关联-->
+
+</mapper>

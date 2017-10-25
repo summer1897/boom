@@ -29,9 +29,13 @@
 
 
     <!-- 指示Spring MVC哪些静态资源不用通过DispatcherServlet处理 -->
-    <mvc:resources location="/WEB-INF/asserts/" mapping="/asserts/**"/>
+    <mvc:resources location="/WEB-INF/assets/" mapping="/assets/**"/>
 
-    <context:component-scan base-package="com.summer.boom.controller"/>
-    <context:component-scan base-package="com.summer.boom.service"/>
-    <context:component-scan base-package="com.summer.boom.dao"/>
+    <!--<context:component-scan base-package="boom.**.controller"/>-->
+    <context:component-scan base-package="boom.**.service"/>
+    <context:component-scan base-package="boom.**.controller"/>
+    <context:component-scan base-package="boom.**.dao"/>
+    <context:component-scan base-package="boom.**.utils"/>
+    <context:component-scan base-package="boom.**.aspects"/>
+    <context:component-scan base-package="boom.**.annotations"/>
 </beans>
